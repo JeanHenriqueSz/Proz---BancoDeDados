@@ -1,0 +1,67 @@
+-- Criar banco de dados
+CREATE DATABASE livraria;
+
+-- Usar o banco de dados livraria
+USE livraria;
+
+-- Criar tabela Livro
+CREATE TABLE Livro (
+  id_livro INT PRIMARY KEY AUTO_INCREMENT,
+  titulo VARCHAR(255) NOT NULL,
+  autor_id INT NOT NULL,
+  editora_id INT NOT NULL,
+  genero VARCHAR(50) NOT NULL,
+  preco DECIMAL(10,2) NOT NULL,
+  data_publicacao DATE NOT NULL,
+  CONSTRAINT FOREIGN KEY (autor_id) REFERENCES Autor(id_autor),
+  CONSTRAINT FOREIGN KEY (editora_id) REFERENCES Editora(id_editora)
+);
+
+-- Criar tabela Autor
+CREATE TABLE Autor (
+  id_autor INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(255) NOT NULL,
+  nacionalidade VARCHAR(50) NOT NULL,
+  data_nascimento DATE NOT NULL
+);
+
+-- Criar tabela Editora
+CREATE TABLE Editora (
+  id_editora INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(255) NOT NULL,
+  pais VARCHAR(50) NOT NULL,
+  data_fundacao DATE NOT NULL
+);
+
+-- Criar tabela Cliente
+CREATE TABLE Cliente (
+  id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  cidade VARCHAR(50) NOT NULL,
+  estado VARCHAR(50) NOT NULL
+);
+
+-- Criar tabela Pedido de Venda (Tabela Intermediária)
+CREATE TABLE PedidoVenda (
+  id_pedido_venda INT PRIMARY KEY AUTO_INCREMENT,
+  cliente_id INT NOT NULL,
+  livro_id INT NOT NULL,
+  quantidade INT NOT NULL,
+  data_venda DATE NOT NULL,
+  CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES Cliente(id_cliente),
+  CONSTRAINT FOREIGN KEY (livro_id) REFERENCES Livro(id_livro)
+);
+
+-- Inserir dados na tabela Livro
+INSERT INTO Livro (titulo, autor_id, editora_id, genero, preco, data_publicacao)
+VALUES
+  ('O Senhor dos Anéis', 1, 1, 'Fantasia', 49.90, '1954-07-29'),
+  ('O Guia do Mochileiro das Galáxias', 2, 2, 'Ficção Científica', 34.90, '1979-01-01'),
+  ('Dom Quixote', 3, 3, 'Romance', 29.90, '1605-01-16');
+
+-- Inserir dados na tabela Autor
+INSERT INTO Autor (nome, nacionalidade, data_nascimento)
+VALUES
+  ('J.R.R. Tolkien', 'Inglaterra', '1892-05-03'),
+  ('Douglas Adams', 'Inglaterra', '1952-0
