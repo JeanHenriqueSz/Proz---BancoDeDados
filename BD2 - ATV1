@@ -1,0 +1,33 @@
+CREATE DATABASE exemplo_banco;
+USE exemplo_banco;
+
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(100)
+);
+
+CREATE TABLE pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    produto VARCHAR(100),
+    quantidade INT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+DELIMITER //
+
+CREATE TRIGGER after_pedido_insert
+AFTER INSERT ON pedidos
+FOR EACH ROW
+BEGIN
+    DECLARE cliente_nome VARCHAR(100);
+    SELECT nome INTO cliente_nome FROM clientes WHERE id = NEW.cliente_id;
+    SELECT CONCAT('Pedido registrado com sucesso para o cliente: ', cliente_nome) AS mensagem;
+END;
+//
+
+DELIMITER ;
+
+INSERT INTO clientes (nome, email) VALUES ('João', 'joao@example.com');
+INSERT INTO pedidos (cliente_id, produto, quantidade) VALUES (1, 'Camiseta', 2);
