@@ -1,0 +1,12 @@
+CREATE FUNCTION get_daily_customer_count(registration_date DATE)
+RETURNS INT
+BEGIN
+  DECLARE total_customers INT;
+
+  -- Replace 'customer_table' with the actual table name
+  SELECT COUNT(*) INTO total_customers
+  FROM customer_table
+  WHERE registration_date = registration_date;
+
+  RETURN total_customers;
+END;
