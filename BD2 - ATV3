@@ -1,0 +1,8 @@
+SELECT
+  DATE(compra.data_compra) AS data_compra,
+  COUNT(produto.id_produto) AS quantidade_produtos
+FROM compra
+INNER JOIN produto_compra ON compra.id_compra = produto_compra.id_compra
+INNER JOIN produto ON produto.id_produto = produto_compra.id_produto
+WHERE compra.data_compra BETWEEN '2024-05-21' AND '2024-05-21'
+GROUP BY DATE(compra.data_compra);
